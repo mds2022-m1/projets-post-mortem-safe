@@ -19,7 +19,7 @@ export class UserCreateInput {
 }
 
 @ObjectType()
-export class UserCreateOuput {
+export class UserCreateOutput {
 
     @Field(() => Users)
     user: Users

@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { ApolloDriver } from '@nestjs/apollo/dist/drivers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { appResolver } from './app.resolver';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -29,6 +28,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService, appResolver],
+  providers: [AppService],
 })
 export class AppModule {}

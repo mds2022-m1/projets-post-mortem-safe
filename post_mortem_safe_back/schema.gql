@@ -3,25 +3,44 @@
 # ------------------------------------------------------
 
 type Users {
+  id: String!
   nom: String!
   prenom: String!
   email: String!
   mdp: String!
 }
 
-type UserCreateOuput {
+type userDeleteOutput {
+  code: Float!
+}
+
+type UserCreateOutput {
+  user: Users!
+}
+
+type UserUpdateOutput {
   user: Users!
 }
 
 type Query {
-  sayHello: String!
+  getUser(userId: ID!): Users!
+  getUsers: [Users!]!
 }
 
 type Mutation {
-  userCreate(input: UserCreateInput!): UserCreateOuput!
+  userCreate(input: UserCreateInput!): UserCreateOutput!
+  userUpdate(userId: ID!, input: UserUpdateInput!): UserUpdateOutput!
+  userDelete(userId: ID!): userDeleteOutput!
 }
 
 input UserCreateInput {
+  nom: String!
+  prenom: String!
+  email: String!
+  mdp: String!
+}
+
+input UserUpdateInput {
   nom: String!
   prenom: String!
   email: String!

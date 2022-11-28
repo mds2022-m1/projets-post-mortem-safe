@@ -6,6 +6,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @ObjectType()
 export class Users extends BaseEntity {
 
+    @Field(() => String)
     @PrimaryGeneratedColumn('uuid')
     id!: string
 
