@@ -7,6 +7,7 @@ import { ApolloDriver } from '@nestjs/apollo/dist/drivers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { appResolver } from './app.resolver';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { appResolver } from './app.resolver';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql'
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, appResolver],
