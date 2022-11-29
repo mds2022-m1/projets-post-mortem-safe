@@ -40,17 +40,9 @@ type UsersPagination {
   entity: [Users!]!
 }
 
-type SignInDto {
-  access_token: String!
-  grant_type: String!
-  expires_in: String!
-  scope: String!
-}
-
 type Query {
   getUser(userId: ID!): Users!
   userPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
-  signIn(Authorization: String!): SignInDto!
 }
 
 input UsersPaginationSortBy {

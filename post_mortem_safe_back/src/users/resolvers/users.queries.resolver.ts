@@ -5,7 +5,6 @@ import {
 } from '../dto/users-pagination.dto';
 import { Users } from '../entities/users.entity';
 import { UsersService } from '../users.service';
-
 @Resolver(Users)
 export class UsersQueriesResolver {
   constructor(private readonly usersService: UsersService) {}
