@@ -11,6 +11,7 @@ import {
 } from './dto/users-pagination.dto';
 import { Users } from './entities/users.entity';
 import * as bcrypt from 'bcrypt';
+import { Email } from 'src/type';
 
 @Injectable()
 export class UsersService {
@@ -20,17 +21,10 @@ export class UsersService {
   ) {}
 
   async createUser(input: UserCreateInput): Promise<UserCreateOutput> {
-    const email = await this.userRepository.findOne({
-      select: {email: true},
-      where: { email: input.email },
-    });
-    if(email){
-      throw Error(`Email already exist`)
-    }
     input.mdp = await bcrypt.hash(input.mdp, 10);
-    
+
     const user = await this.userRepository.save(input);
-    
+
     return { user };
   }
 
@@ -85,5 +79,9 @@ export class UsersService {
 
   async getUser(userId: Users['id']): Promise<Users> {
     return await this.userRepository.findOneByOrFail({ id: userId });
+  }
+
+  async findByEmail(email: Email){
+    return await this.userRepository.findOneByOrFail({email: email})
   }
 }

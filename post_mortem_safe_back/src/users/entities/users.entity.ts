@@ -15,7 +15,7 @@ export class Users extends CommonEntity {
   prenom!: string;
 
   @Field(() => String)
-  @Column()
+  @Column({unique : true})
   email!: Email;
 
   @Field(() => String)
