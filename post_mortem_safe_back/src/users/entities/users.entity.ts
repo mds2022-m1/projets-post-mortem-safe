@@ -1,28 +1,24 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Email } from "src/type";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { CommonEntity } from 'src/pagination/models/commonEntity.model';
+import { Email } from 'src/type';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class Users extends BaseEntity {
+export class Users extends CommonEntity {
+  @Field(() => String)
+  @Column()
+  nom!: string;
 
-    @Field(() => String)
-    @PrimaryGeneratedColumn('uuid')
-    id!: string
+  @Field(() => String)
+  @Column()
+  prenom!: string;
 
-    @Field(() => String)
-    @Column()
-    nom!: string
+  @Field(() => String)
+  @Column()
+  email!: Email;
 
-    @Field(() => String)
-    @Column()
-    prenom!: string
-
-    @Field(() => String)
-    @Column()
-    email!: Email
-
-    @Field(() => String)
-    @Column()
-    mdp!: String
+  @Field(() => String)
+  @Column()
+  mdp!: string;
 }
