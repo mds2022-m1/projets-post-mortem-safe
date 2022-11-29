@@ -1,3 +1,4 @@
+import { HttpStatus } from '@nestjs/common';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Users } from '../entities/users.entity';
 
@@ -10,5 +11,5 @@ export class userDeleteInput {
 @ObjectType()
 export class userDeleteOutput {
   @Field()
-  code: number;
+  code: HttpStatus;
 }
