@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Email } from 'src/type';
+import { SortDirection } from 'src/pagination/dto/pagination.dto';
 import { Repository } from 'typeorm';
 import { userDeleteInput, userDeleteOutput } from './dto/user-delete.dto';
 import { UserUpdateInput, UserUpdateOutput } from './dto/user-update.dto';
 import { UserCreateInput, UserCreateOutput } from './dto/users-create.dto';
-import { UsersPagination, UsersPaginationArgs} from './dto/users-pagination.dto';
+import {
+  UsersPagination,
+  UsersPaginationArgs,
+} from './dto/users-pagination.dto';
 import { Users } from './entities/users.entity';
 
 @Injectable()
@@ -40,11 +43,33 @@ export class UsersService {
   }
 
   async getUsers(args: UsersPaginationArgs): Promise<UsersPagination> {
-    const [entity, totalCount ] = await this.userRepository.findAndCount({
+    /*const qb = this.userRepository.createQueryBuilder('users');
+    qb.skip(args.skip); 
+    qb.take(args.take);
+    if(args.sortBy) {
+      if(args.sortBy.createdAt !== null){
+        qb.addOrderBy('users.createdAt',
+        args.sortBy.createdAt === SortDirection.ASC ? 'ASC' : 'DESC' 
+        )
+      }
+      if(args.sortBy.nom !== null) {
+        qb.addOrderBy('users.nom',
+        args.sortBy.nom === SortDirection.ASC ? 'ASC' : 'DESC'
+        )
+      }
+    }
+    const [entity, totalCount] = await qb.getManyAndCount();*/
+
+    const [entity, totalCount] = await this.userRepository.findAndCount({
       skip: args.skip,
-      take: args.take
+      take: args.take,
+      order: {
+        createdAt:
+          args.sortBy?.createdAt === SortDirection.ASC ? 'ASC' : 'DESC',
+        nom: args.sortBy?.nom === SortDirection.ASC ? 'ASC' : 'DESC',
+      },
     });
-    return {entity, totalCount};
+    return { entity, totalCount };
   }
 
   async getUser(userId: Users['id']): Promise<Users> {

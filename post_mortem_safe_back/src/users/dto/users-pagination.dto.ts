@@ -10,7 +10,7 @@ import { Users } from '../entities/users.entity';
 @InputType()
 export class UsersPaginationSortBy extends PaginationSortBy {
   @Field(() => SortDirection, { nullable: true })
-  how?: SortDirection;
+  nom?: SortDirection;
 }
 
 @ArgsType()
@@ -19,9 +19,8 @@ export class UsersPaginationArgs extends PaginationArgs {
   sortBy?: UsersPaginationSortBy;
 }
 
-ObjectType()
+@ObjectType()
 export class UsersPagination extends Pagination {
-
   @Field(() => [Users])
   entity: Users[];
 }

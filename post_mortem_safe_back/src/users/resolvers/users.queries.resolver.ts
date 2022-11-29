@@ -1,5 +1,8 @@
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { UsersPagination, UsersPaginationArgs } from '../dto/users-pagination.dto';
+import {
+  UsersPagination,
+  UsersPaginationArgs,
+} from '../dto/users-pagination.dto';
 import { Users } from '../entities/users.entity';
 import { UsersService } from '../users.service';
 

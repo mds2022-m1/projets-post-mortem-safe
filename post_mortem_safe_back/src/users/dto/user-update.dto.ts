@@ -1,5 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Users } from '../entities/users.entity';
+import { InputType, ObjectType } from '@nestjs/graphql';
 import { UserCreateInput, UserCreateOutput } from './users-create.dto';
 
 @InputType()
