@@ -85,7 +85,7 @@ export class UsersService {
     return await this.userRepository.findOneByOrFail({ email: email });
   }
 
-  async findByEmail(email: Email){
-    return await this.userRepository.findOneByOrFail({email: email})
+  async findByEmail(email: Email) {
+    return await this.userRepository.findOneByOrFail({ email: email });
   }
 }
