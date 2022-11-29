@@ -1,10 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Email } from 'src/type';
+import { CommonEntity } from 'src/pagination/models/commonEntity.model';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class Users extends BaseEntity {
+export class Users extends CommonEntity {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
   id!: string;
