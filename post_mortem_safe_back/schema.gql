@@ -40,6 +40,10 @@ type UsersPagination {
   entity: [Users!]!
 }
 
+type AuthLoginOutput {
+  accessToken: String!
+}
+
 type Query {
   getUser(userId: ID!): Users!
   userPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
@@ -59,6 +63,7 @@ type Mutation {
   userCreate(input: UserCreateInput!): UserCreateOutput!
   userUpdate(userId: ID!, input: UserUpdateInput!): UserUpdateOutput!
   userDelete(userId: ID!): userDeleteOutput!
+  authLogin(username: String!, password: String!): AuthLoginOutput!
 }
 
 input UserCreateInput {
