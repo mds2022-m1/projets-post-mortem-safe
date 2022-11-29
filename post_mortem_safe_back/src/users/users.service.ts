@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SortDirection } from 'src/pagination/dto/pagination.dto';
 import { Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import {
   UsersPaginationArgs,
 } from './dto/users-pagination.dto';
 import { Users } from './entities/users.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,17 @@ export class UsersService {
   ) {}
 
   async createUser(input: UserCreateInput): Promise<UserCreateOutput> {
+    const email = await this.userRepository.findOne({
+      select: {email: true},
+      where: { email: input.email },
+    });
+    if(email){
+      throw Error(`Email already exist`)
+    }
+    input.mdp = await bcrypt.hash(input.mdp, 10);
+    
     const user = await this.userRepository.save(input);
+    
     return { user };
   }
 
@@ -39,7 +50,7 @@ export class UsersService {
   async deleteUser(input: userDeleteInput): Promise<userDeleteOutput> {
     const user = await this.userRepository.findOneByOrFail({ id: input.id });
     user.remove();
-    return { code: 200 };
+    return { code: HttpStatus.NO_CONTENT };
   }
 
   async getUsers(args: UsersPaginationArgs): Promise<UsersPagination> {
