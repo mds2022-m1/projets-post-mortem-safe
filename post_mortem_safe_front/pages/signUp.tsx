@@ -1,7 +1,63 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useState } from 'react'
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+
 
 export default function SignUp() {
+
+    const CREATE_USER = gql`
+    mutation userCreate($nom: String!, $prenom: String!, $email: String!, $mdp: String!) {
+        userCreate(
+            input : {
+            nom: $nom,
+            prenom: $prenom,
+            email: $email,
+            mdp: $mdp
+            }
+        ){
+            user {
+                email
+                mdp
+            }
+        }
+    }
+  `;
+
+  const GET_TOKEN = gql`
+   query getToken($username: String!, $password: String!){
+        authLogin(username: $username, password: $password){accessToken}
+   }
+  `;
+
+    const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+    const [getToken, { loading: loadingToken, error: errorToken, data: dataToken }] = useLazyQuery(GET_TOKEN);
+
+    const [nom, setNom] = useState("")
+    const [prenom, setPrenom] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const handleSubmit = async (e: any)=>{
+        e.preventDefault();
+
+        console.log(nom,prenom,email,password);
+
+        try{
+            const {data} = await createUser({variables: { nom: nom, prenom: prenom, email: email, mdp: password}})
+            console.log(data)
+
+            const {data: token} = await getToken({variables: {username: email, password: password}})
+
+            console.log(token)
+
+        }
+        catch(e){
+            console.log(e)
+        }
+
+    }
+
+
     return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-500">
         <Head>
@@ -20,31 +76,32 @@ export default function SignUp() {
                 <div className="text-left font-bold">
                 Post Mortem Chest
                 </div>
-                <div className="py-10 flex">
-                    <h2 className="text-3xl font-bold mb-2">Créez votre compte !</h2>
+                <div className="p-10 flex">
+                    <h2 className="text-3xl font-bold mb-1">Créez votre compte !</h2>
                 </div>
-                <div className="flex flex-col items-center">
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
-                    <input type="nom" name="nom" placeholder="Nom" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
-                    <input type="prenom" name="prenom" placeholder="Prénom" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
-                    <input type="email" name="email" placeholder="Email" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
-                    <input type="password" name="password" placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="flex w-64 mb-5">
-                    <label className="flex items-center text-xs"> 
-                    <input type="checkbox" name="remember" className="mr-1"/>Se souvenir de moi
-                    </label>
-                </div>
-                </div>
+                <form onSubmit={handleSubmit}>
+                    <div className="flex flex-col items-center">
+                        <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
+                            <input required type="nom" name="nom" value={nom} onChange={(e) => setNom(e.target.value)}  placeholder="Nom" className="bg-gray-100 outline-none flex-1 m-2"/>
+                        </div>
+                        <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
+                            <input required type="prenom" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder="Prénom" className="bg-gray-100 outline-none flex-1 m-2"/>
+                        </div>
+                        <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
+                            <input required type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}   placeholder="Email" className="bg-gray-100 outline-none flex-1 m-2"/>
+                        </div>
+                        <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
+                            <input required type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}   placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
+                        </div>
+                        <div className="flex w-64 mb-5">
+                            <button type="submit">S&apos;inscrire</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         </main>
     </div>
     )
 }
+
