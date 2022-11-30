@@ -6,28 +6,28 @@ import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 export default function SignUp() {
 
     const CREATE_USER = gql`
-    mutation userCreate($nom: String!, $prenom: String!, $email: String!, $mdp: String!) {
-        userCreate(
-            input : {
-            nom: $nom,
-            prenom: $prenom,
-            email: $email,
-            mdp: $mdp
-            }
-        ){
-            user {
-                email
-                mdp
+        mutation userCreate($nom: String!, $prenom: String!, $email: String!, $mdp: String!) {
+            userCreate(
+                input : {
+                nom: $nom,
+                prenom: $prenom,
+                email: $email,
+                mdp: $mdp
+                }
+            ){
+                user {
+                    email
+                    mdp
+                }
             }
         }
-    }
-  `;
+    `;
 
-  const GET_TOKEN = gql`
-   query getToken($username: String!, $password: String!){
-        authLogin(username: $username, password: $password){accessToken}
-   }
-  `;
+    const GET_TOKEN = gql`
+        query getToken($username: String!, $password: String!){
+                authLogin(username: $username, password: $password){accessToken}
+        }
+    `;
 
     const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
     const [getToken, { loading: loadingToken, error: errorToken, data: dataToken }] = useLazyQuery(GET_TOKEN);
