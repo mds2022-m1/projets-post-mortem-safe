@@ -21,4 +21,7 @@ export class Users extends CommonEntity {
   @Field(() => String)
   @Column()
   mdp!: string;
+
+  @Column({ nullable: true })
+  refreshToken?: string;
 }
