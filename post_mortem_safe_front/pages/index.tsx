@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
-import client from '../apolloClient';
+import client from '../api/apolloClient';
 import ReactDOM from 'react-dom/client';
 
 export default function Home() {

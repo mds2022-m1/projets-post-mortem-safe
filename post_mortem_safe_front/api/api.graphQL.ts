@@ -1,6 +1,8 @@
-import { gql } from '../../__generated__/gql';
+import { TypedDocumentNode } from '@apollo/client';
+import { DocumentNode } from 'graphql';
+import { gql } from '../__generated__/gql';
 
-const GET_USERS = gql(`
+export const GET_USERS = gql(`
   query getUsers {
       Users {
       id
@@ -12,7 +14,7 @@ const GET_USERS = gql(`
   }
 `);
 
-const GET_USER = gql(`
+export const GET_USER = gql(`
     query getUser(id) {
       Users {
         id
@@ -24,17 +26,7 @@ const GET_USER = gql(`
     }
   `);
 
-const ADD_USER = gql(`
-    mutation userCreate($nom: String!, $prenom: String!, $email: String!, $mdp: String!) {
-      userCreate(nom: $nom, prenom: $prenom, email: $email, mdp: $mdp) {
-        id
-        nom
-        prenom
-        email
-        mdp
-      }
-    }
-  `);
+
 
 
 
