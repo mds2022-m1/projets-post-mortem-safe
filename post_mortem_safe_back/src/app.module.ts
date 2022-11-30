@@ -12,9 +12,9 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type:'mysql',
+      type: 'mysql',
       host: process.env.DB_HOST,
-      port: 3306,
+      port: 8889,
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -30,4 +30,4 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

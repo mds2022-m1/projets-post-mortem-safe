@@ -2,21 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import { gql, useQuery } from "@apollo/client";
 
-  export const ALL_PLAYERS_QUERY = gql`
-    query getUsers {
-        id
-        nom
-      }
-  `;
-
 export default function SignUp() {
-
-  const query = useQuery(ALL_PLAYERS_QUERY);
-
-  return <pre>
-  {JSON.stringify(query, null, 2)}
-  </pre>
-
     return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-500">
         <Head>
@@ -53,7 +39,7 @@ export default function SignUp() {
                             <input required type="password" name="password" placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
                         </div>
                         <div className="flex w-64 mb-5">
-                           <button type="submit">S'inscrire</button>
+                           <button type="submit">S&apos;inscrire</button>
                         </div>
                     </div>
                 </form>

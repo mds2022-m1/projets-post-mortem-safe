@@ -1,6 +1,10 @@
 import Head from 'next/head'
 import React from 'react'
 
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import client from '../apolloClient';
+import ReactDOM from 'react-dom/client';
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-500">
@@ -44,7 +48,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold mb-2">Enregistre-toi !</h2>
             <div className="border-2 w-10 text-white inline-block mb-2"></div>
             <p className="mb-10">Tu es un défunt en devenir ?! N&apos;attends plus et loue de ce pas un coffre fort pour tes fichiers et photos que tu souhaiterais laisser sur Terre !</p>
-            <a href="signUp" className="border-2 border-white rounded-full px-12 py-2 inline-block font-bold hover:bg-white hover:text-emerald-500">S'inscrire</a>
+            <a href="signUp" className="border-2 border-white rounded-full px-12 py-2 inline-block font-bold hover:bg-white hover:text-emerald-500">S&apos;inscrire</a>
           </div>
         </div>
       </main>
