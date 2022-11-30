@@ -41,6 +41,15 @@ export class UsersService {
     return { user };
   }
 
+  async updateRefreshToken(
+    userId: string,
+    token: string | null,
+  ): Promise<void> {
+    const user = await this.userRepository.findOneByOrFail({ id: userId });
+    user.refreshToken = token;
+    await user.save();
+  }
+
   async deleteUser(input: userDeleteInput): Promise<userDeleteOutput> {
     const user = await this.userRepository.findOneByOrFail({ id: input.id });
     user.remove();
