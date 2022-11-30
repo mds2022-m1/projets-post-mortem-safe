@@ -1,43 +1,11 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React from 'react'
 
-import { ApolloClient, ApolloProvider, gql, useMutation } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import client from '../api/apolloClient';
 import ReactDOM from 'react-dom/client';
 
 export default function Home() {
-
-  const GET_TOKEN = gql`
-      mutation getToken($username: String!, $password: String!){
-              authLogin(username: $username, password: $password){accessToken}
-      }
-  `;
-
-  const GET_USER = gql`
-      query getUser($userId: String!){
-              authLogin(username: $username, password: $password){accessToken}
-      }
-  `;
-
-  const [getToken, { loading: loadingToken, error: errorToken, data: dataToken }] = useMutation(GET_TOKEN);
-  
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const handleSubmit = async (e: any)=>{
-      e.preventDefault();
-
-      console.log(email,password);
-
-      try{
-          const {data: token} = await getToken({variables: {username: email, password: password}})
-          console.log(token)
-      }
-      catch(e){
-          console.log(e)
-      }
-    }
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-500">
       <Head>
@@ -60,29 +28,27 @@ export default function Home() {
                   <h2 className="text-3xl font-bold mb-2">Connectez-vous !</h2>
                   <div className="border-2 w-10 border-emerald-500 inline-block mb-2"></div>
               </div>
-              <form onSubmit={handleSubmit}>
-                <div className="flex flex-col items-center">
-                  <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
-                    <input type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-100 outline-none flex-1 m-2"/>
-                  </div>
-                  <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
-                    <input type="password" name="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-gray-100 outline-none flex-1 m-2"/>
-                  </div>
-                  <div className="flex w-64 mb-5">
-                    <label className="flex items-center text-xs"> 
-                      <input type="checkbox" name="remember" className="mr-1"/>Se souvenir de moi
-                    </label>
-                  </div>
-                  <button type="submit" className="border-2 border-emerald-500 rounded-full px-12 py-2 inline-block font-bold hover:bg-emerald-500 hover:text-white">Connexion</button>
+              <div className="flex flex-col items-center">
+                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
+                  <input type="email" name="email" placeholder="Email" className="bg-gray-100 outline-none flex-1 m-2"/>
                 </div>
-              </form>
+                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
+                  <input type="password" name="password" placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
+                </div>
+                <div className="flex w-64 mb-5">
+                  <label className="flex items-center text-xs"> 
+                    <input type="checkbox" name="remember" className="mr-1"/>Se souvenir de moi
+                  </label>
+                </div>
+                <a href="signIn" className="border-2 border-emerald-500 rounded-full px-12 py-2 inline-block font-bold hover:bg-emerald-500 hover:text-white">Connexion</a>
+              </div>
             </div>
           {/* SIGN UP DIV */}
           <div className="w-2/5 bg-emerald-500 text-white rounded-tr-2xl rounded-br-2xl py-36 px-12">
             <h2 className="text-3xl font-bold mb-2">Enregistre-toi !</h2>
             <div className="border-2 w-10 text-white inline-block mb-2"></div>
             <p className="mb-10">Tu es un défunt en devenir ?! N&apos;attends plus et loue de ce pas un coffre fort pour tes fichiers et photos que tu souhaiterais laisser sur Terre !</p>
-            <button type="submit" className="border-2 border-white rounded-full px-12 py-2 inline-block font-bold hover:bg-white hover:text-emerald-500">S&apos;inscrire</button>
+            <a href="signUp" className="border-2 border-white rounded-full px-12 py-2 inline-block font-bold hover:bg-white hover:text-emerald-500">S&apos;inscrire</a>
           </div>
         </div>
       </main>
