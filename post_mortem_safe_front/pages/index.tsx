@@ -1,11 +1,30 @@
 import Head from 'next/head'
-import React from 'react'
-
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
-import client from '../api/apolloClient';
-import ReactDOM from 'react-dom/client';
+import React, { FormEvent, useState } from 'react'
+import { useLogin } from '../hooks/useLogin';
+import { useCookies } from 'react-cookie';
 
 export default function Home() {
+
+  const [email, setEmail] = useState("")
+  const [mdp, setMdp] = useState("")
+  const [cookies, setCookie] = useCookies();
+
+  const [login] = useLogin();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> =>{
+    e.preventDefault();
+
+    const {data: {authLogin: user}} = await login({variables: {username: email, password: mdp}})
+
+    if(!user){
+      throw Error('Impossible de récupérer les informations de connexion')
+    }
+
+    setCookie('user', user, {path: '/'});
+
+  }
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-500">
       <Head>
@@ -28,20 +47,22 @@ export default function Home() {
                   <h2 className="text-3xl font-bold mb-2">Connectez-vous !</h2>
                   <div className="border-2 w-10 border-emerald-500 inline-block mb-2"></div>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
-                  <input type="email" name="email" placeholder="Email" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
-                  <input type="password" name="password" placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
-                </div>
-                <div className="flex w-64 mb-5">
-                  <label className="flex items-center text-xs"> 
-                    <input type="checkbox" name="remember" className="mr-1"/>Se souvenir de moi
-                  </label>
-                </div>
-                <a href="signIn" className="border-2 border-emerald-500 rounded-full px-12 py-2 inline-block font-bold hover:bg-emerald-500 hover:text-white">Connexion</a>
-              </div>
+              <form onSubmit={handleSubmit}>
+                <div className="flex flex-col items-center">
+                  <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3 ">
+                    <input type="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" className="bg-gray-100 outline-none flex-1 m-2"/>
+                  </div>
+                  <div className="bg-gray-100 w-64 p-2 flex items-center rounded-xl mb-3">
+                    <input type="password" name="password" value={mdp} onChange={e => setMdp(e.target.value)} placeholder="Mot de passe" className="bg-gray-100 outline-none flex-1 m-2"/>
+                  </div>
+                  <div className="flex w-64 mb-5">
+                    <label className="flex items-center text-xs"> 
+                      <input type="checkbox" name="remember" className="mr-1"/>Se souvenir de moi
+                    </label>
+                  </div>
+                  <button className="border-2 border-emerald-500 rounded-full px-12 py-2 inline-block font-bold hover:bg-emerald-500 hover:text-white">Connexion</button>
+                  </div>
+              </form>
             </div>
           {/* SIGN UP DIV */}
           <div className="w-2/5 bg-emerald-500 text-white rounded-tr-2xl rounded-br-2xl py-36 px-12">

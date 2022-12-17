@@ -1,36 +1,14 @@
 import Head from 'next/head'
 import React, { useState } from 'react'
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useCreateUser } from '../hooks/useCreateUser';
+import { useLogin } from '../hooks/useLogin';
 
 
 export default function SignUp() {
 
-    const CREATE_USER = gql`
-    mutation userCreate($nom: String!, $prenom: String!, $email: String!, $mdp: String!) {
-        userCreate(
-            input : {
-            nom: $nom,
-            prenom: $prenom,
-            email: $email,
-            mdp: $mdp
-            }
-        ){
-            user {
-                email
-                mdp
-            }
-        }
-    }
-  `;
-
-  const GET_TOKEN = gql`
-   query getToken($username: String!, $password: String!){
-        authLogin(username: $username, password: $password){accessToken}
-   }
-  `;
-
-    const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
-    const [getToken, { loading: loadingToken, error: errorToken, data: dataToken }] = useLazyQuery(GET_TOKEN);
+   const [createUser] = useCreateUser();
+   const [login] = useLogin();
 
     const [nom, setNom] = useState("")
     const [prenom, setPrenom] = useState("")
@@ -44,11 +22,10 @@ export default function SignUp() {
 
         try{
             const {data} = await createUser({variables: { nom: nom, prenom: prenom, email: email, mdp: password}})
+            const {data: {authLogin: user}} = await login({variables: {username: email, password: password}})
+
             console.log(data)
-
-            const {data: token} = await getToken({variables: {username: email, password: password}})
-
-            console.log(token)
+            console.log(user)
 
         }
         catch(e){
