@@ -21,9 +21,10 @@ export class UsersService {
   ) {}
 
   async createUser(input: UserCreateInput): Promise<UserCreateOutput> {
-    input.mdp = await bcrypt.hash(input.mdp, 10);
+    input.mdp = await bcrypt.hash(input.mdp, parseInt(process.env.BCRYPT_SALT));
 
-    const user = await this.userRepository.save(input);
+    let user = await this.userRepository.save(input);
+    user.id = await bcrypt.hash(user.id, parseInt(process.env.BCRYPT_SALT))
 
     return { user };
   }

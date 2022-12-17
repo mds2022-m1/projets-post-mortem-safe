@@ -34,7 +34,7 @@ export class AuthService {
 
   async login(user: Users): Promise<AuthLoginOutput> {
     const payload: JwtPayload = {
-      id: user.id,
+      id: await bcrypt.hash(user.id, parseInt(process.env.BCRYPT_SALT)),
       email: user.email,
       nom: user.nom,
       prenom: user.prenom,

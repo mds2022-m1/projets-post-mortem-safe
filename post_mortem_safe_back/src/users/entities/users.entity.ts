@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, HideField } from '@nestjs/graphql';
 import { CommonEntity } from 'src/pagination/models/commonEntity.model';
 import { Email } from 'src/type';
 import { Column, Entity } from 'typeorm';
@@ -18,7 +18,7 @@ export class Users extends CommonEntity {
   @Column({ unique: true })
   email!: Email;
 
-  @Field(() => String)
+  @HideField()
   @Column()
   mdp!: string;
 
