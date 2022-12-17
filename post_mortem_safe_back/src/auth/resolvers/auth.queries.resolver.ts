@@ -20,10 +20,4 @@ export class AuthQueriesResolver {
     this.userService.updateRefreshToken(req.user.id, null);
     return { code: HttpStatus.NO_CONTENT };
   }
-
-  @UseGuards(RefreshJwtGuard)
-  @Query(() => AuthLoginOutput)
-  async refreshToken(@Context('req') req) {
-    return await this.authService.refreshTokens(req.user.id, req.user.refreshToken);
-  }
 }

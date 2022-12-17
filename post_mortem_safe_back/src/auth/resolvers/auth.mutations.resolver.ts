@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { AuthLoginOutput } from '../dto/auth-login.dto';
+import { RefreshJwtGuard } from '../guards/refresh-jwt.guard';
 
 @Resolver()
 export class AuthMutationsResolver {
@@ -16,5 +17,11 @@ export class AuthMutationsResolver {
     @Args('password') _password: string,
   ) {
     return this.authService.login(req.user);
+  }
+
+  @UseGuards(RefreshJwtGuard)
+  @Mutation(() => AuthLoginOutput)
+  async refreshToken(@Context('req') req) {
+    return await this.authService.refreshTokens(req.user.id, req.user.refreshToken);
   }
 }
