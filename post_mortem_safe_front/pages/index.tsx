@@ -23,10 +23,9 @@ export default function Home() {
       throw Error('Impossible de récupérer les informations de connexion')
     }
 
-    setCookie('user', user, {path: '/'});
+    (setCookie('user', user));
 
     router.push('/user/dashboard')
-
   }
 
 
