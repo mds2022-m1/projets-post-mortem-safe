@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as jose from "jose"
 import { getTokenWithRefresh } from "./utils/getRefreshToken";
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+export async function middleware(request: NextRequest) {
 
     //middleware for user app
     if (request.nextUrl.pathname.startsWith('/user')) {
@@ -42,7 +42,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     //middleware for index
     if (request.nextUrl.pathname === "/") {
         if(request.cookies.get('user')){
-            console.log(request.nextUrl.href)
             return NextResponse.redirect(`${request.nextUrl.origin}/user/dashboard`)
         }
     }
