@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React, { FormEvent, useState } from 'react'
 import { useLogin } from '../hooks/useLogin';
 import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/router';
 
 export default function Home() {
 
@@ -10,6 +11,8 @@ export default function Home() {
   const [cookies, setCookie] = useCookies();
 
   const [login] = useLogin();
+
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> =>{
     e.preventDefault();
@@ -21,6 +24,8 @@ export default function Home() {
     }
 
     setCookie('user', user, {path: '/'});
+
+    router.push('/user/dashboard')
 
   }
 

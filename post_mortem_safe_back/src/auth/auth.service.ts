@@ -34,7 +34,7 @@ export class AuthService {
 
   async login(user: Users): Promise<AuthLoginOutput> {
     const payload: JwtPayload = {
-      id: await bcrypt.hash(user.id, parseInt(process.env.BCRYPT_SALT)),
+      id: user.id,
       email: user.email,
       nom: user.nom,
       prenom: user.prenom,
@@ -67,7 +67,6 @@ export class AuthService {
       refreshToken,
       user.refreshToken,
     );
-    console.log(refreshTokenMatches)
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.login(user);

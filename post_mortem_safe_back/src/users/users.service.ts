@@ -24,7 +24,6 @@ export class UsersService {
     input.mdp = await bcrypt.hash(input.mdp, parseInt(process.env.BCRYPT_SALT));
 
     let user = await this.userRepository.save(input);
-    user.id = await bcrypt.hash(user.id, parseInt(process.env.BCRYPT_SALT))
 
     return { user };
   }
