@@ -28,7 +28,7 @@ export class UsersService {
 
     input.safeID = `safe-${randomUUID()}`
 
-    this.safesService.createSafe(input.safeID)
+    //this.safesService.createSafe(input.safeID)
 
     let user = await this.userRepository.save(input);
 
