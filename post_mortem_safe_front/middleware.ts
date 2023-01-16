@@ -33,7 +33,6 @@ export async function middleware(request: NextRequest) {
         }
 
         // If token expiration is less than 5 minutes, refresh the token
-        console.log(token.payload.exp as number - Math.round(new Date().getTime() / 1000))
         if(token.payload.exp as number - Math.round(new Date().getTime() / 1000) < 300){
             return getTokenWithRefresh(refreshToken, request)
         }

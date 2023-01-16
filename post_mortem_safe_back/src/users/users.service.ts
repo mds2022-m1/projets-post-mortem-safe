@@ -12,16 +12,23 @@ import {
 import { Users } from './entities/users.entity';
 import * as bcrypt from 'bcrypt';
 import { Email } from 'src/type';
+import { randomUUID } from 'crypto';
+import { SafesService } from 'src/safes/safes.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+    private readonly safesService : SafesService,
   ) {}
 
   async createUser(input: UserCreateInput): Promise<UserCreateOutput> {
     input.mdp = await bcrypt.hash(input.mdp, parseInt(process.env.BCRYPT_SALT));
+
+    input.safeID = `safe-${randomUUID()}`
+
+    this.safesService.createSafe(input.safeID)
 
     let user = await this.userRepository.save(input);
 

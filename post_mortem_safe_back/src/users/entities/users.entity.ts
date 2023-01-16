@@ -1,7 +1,7 @@
 import { Field, ObjectType, HideField } from '@nestjs/graphql';
 import { CommonEntity } from 'src/pagination/models/commonEntity.model';
 import { Email } from 'src/type';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -24,4 +24,8 @@ export class Users extends CommonEntity {
 
   @Column({ nullable: true })
   refreshToken?: string;
+
+  @Column()
+  @Index({unique: true})
+  safeID : string;
 }

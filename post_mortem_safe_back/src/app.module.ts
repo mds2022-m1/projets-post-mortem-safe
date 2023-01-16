@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { SafesService } from './safes/safes.service';
+import { SafesModule } from './safes/safes.module';
 
 @Module({
   imports: [
@@ -28,8 +30,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    SafesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SafesService],
 })
 export class AppModule {}

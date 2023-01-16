@@ -15,6 +15,8 @@ export class UserCreateInput {
 
   @Field()
   mdp: string;
+
+  safeID: string;
 }
 
 @ObjectType()
