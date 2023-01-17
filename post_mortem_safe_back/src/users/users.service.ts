@@ -28,7 +28,7 @@ export class UsersService {
 
     input.safeID = `safe-${randomUUID()}`
 
-    //this.safesService.createSafe(input.safeID)
+    this.safesService.createSafe(input.safeID)
 
     let user = await this.userRepository.save(input);
 
@@ -103,5 +103,14 @@ export class UsersService {
 
   async findByEmail(email: Email) {
     return await this.userRepository.findOneByOrFail({ email: email });
+  }
+
+  async getSafeId(userId: Users['id']): Promise<Users['safeID']>{
+    const user = await this.userRepository.findOne({
+      select:{safeID: true},
+      where:{
+      id: userId
+    }})
+    return user.safeID
   }
 }

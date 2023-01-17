@@ -9,10 +9,10 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 export interface JwtPayload {
-  id: string;
-  email: Email;
-  nom: string;
-  prenom: string;
+    id: string,
+    email: Email;
+    nom: string;
+    prenom: string;
 }
 
 @Injectable()
@@ -34,10 +34,10 @@ export class AuthService {
 
   async login(user: Users): Promise<AuthLoginOutput> {
     const payload: JwtPayload = {
-      id: user.id,
-      email: user.email,
-      nom: user.nom,
-      prenom: user.prenom,
+        id: user.id,
+        email: user.email,
+        nom: user.nom,
+        prenom: user.prenom,
     };
 
     const refreshToken: string = this.jwtService.sign(payload, {

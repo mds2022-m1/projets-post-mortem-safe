@@ -1,14 +1,13 @@
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
 
 @InputType()
-export class GetSafeInput{
+export class UseGetSafeInput{
     @Field()
-    safeID : string
+    userID : string
 }
 
-
 @ObjectType()
-export class GetSafeOutput{
-    @Field()
-    safeID : string
+export class UseGetSafeOutput {
+  @Field(()=> [String])
+  files: string[];
 }

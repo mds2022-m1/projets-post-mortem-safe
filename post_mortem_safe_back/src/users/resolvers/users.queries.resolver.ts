@@ -7,14 +7,11 @@ import {
 import { Users } from '../entities/users.entity';
 import { UsersService } from '../users.service';
 import { UseGuards } from '@nestjs/common';
-import { SafesService } from 'src/safes/safes.service';
-import { GetSafeInput, GetSafeOutput } from 'src/safes/dto/safe-get.dto';
 
 @Resolver(Users)
 export class UsersQueriesResolver {
   constructor(
     private readonly usersService: UsersService,
-    private readonly safesService: SafesService
   ) {}
 
   @Query(() => Users)
@@ -27,11 +24,4 @@ export class UsersQueriesResolver {
   async userPagination(@Args() args: UsersPaginationArgs) {
     return this.usersService.getUsers(args);
   }
-
-  @Query(() => [GetSafeOutput])
-  async getSafe(@Args({name: "safeID"}) safeID: string) {
-    console.log(safeID)
-    console.log('safe: ',this.safesService.getSafe(safeID))
-    return this.safesService.getSafe(safeID)
-  } 
 }
