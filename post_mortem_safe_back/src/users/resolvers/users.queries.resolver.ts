@@ -10,7 +10,9 @@ import { UseGuards } from '@nestjs/common';
 
 @Resolver(Users)
 export class UsersQueriesResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+  ) {}
 
   @Query(() => Users)
   async getUser(@Args({ name: 'userId', type: () => ID }) userId: Users['id']) {

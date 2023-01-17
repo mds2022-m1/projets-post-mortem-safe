@@ -12,18 +12,25 @@ import {
 import { Users } from './entities/users.entity';
 import * as bcrypt from 'bcrypt';
 import { Email } from 'src/type';
+import { randomUUID } from 'crypto';
+import { SafesService } from 'src/safes/safes.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+    private readonly safesService : SafesService,
   ) {}
 
   async createUser(input: UserCreateInput): Promise<UserCreateOutput> {
-    input.mdp = await bcrypt.hash(input.mdp, 10);
+    input.mdp = await bcrypt.hash(input.mdp, parseInt(process.env.BCRYPT_SALT));
 
-    const user = await this.userRepository.save(input);
+    input.safeID = `safe-${randomUUID()}`
+
+    this.safesService.createSafe(input.safeID)
+
+    let user = await this.userRepository.save(input);
 
     return { user };
   }
@@ -96,5 +103,14 @@ export class UsersService {
 
   async findByEmail(email: Email) {
     return await this.userRepository.findOneByOrFail({ email: email });
+  }
+
+  async getSafeId(userId: Users['id']): Promise<Users['safeID']>{
+    const user = await this.userRepository.findOne({
+      select:{safeID: true},
+      where:{
+      id: userId
+    }})
+    return user.safeID
   }
 }
