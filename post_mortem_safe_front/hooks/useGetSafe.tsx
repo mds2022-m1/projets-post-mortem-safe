@@ -1,14 +1,14 @@
 import { gql, useQuery } from "@apollo/client"
 
 export const GET_SAFE = gql`
-   query useGetSafe($userId: ID!) {
-    useGetSafe(userID: $userId){
+   query useGetSafe{
+    useGetSafe{
         files
     }
    }
 `;
 
-export const useGetSafe = (userId: string) => {
-    console.log('userId : ',userId)
-    return useQuery(GET_SAFE, {variables: userId})
+export const useGetSafe = () => {
+    console.log('userId : ')
+    return useQuery(GET_SAFE)
 }
