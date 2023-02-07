@@ -7,11 +7,11 @@ import { CookiesProvider } from 'react-cookie';
 export default function App({ Component, pageProps }: AppProps) {
 
   return (
+    <CookiesProvider>
       <ApolloProvider client={apolloClient}>
-        <CookiesProvider>
             <Component {...pageProps} />
-        </CookiesProvider>
       </ApolloProvider>
+    </CookiesProvider>
 
   )
 }

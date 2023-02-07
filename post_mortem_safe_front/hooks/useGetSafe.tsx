@@ -9,6 +9,5 @@ export const GET_SAFE = gql`
 `;
 
 export const useGetSafe = () => {
-    console.log('userId : ')
     return useQuery(GET_SAFE)
 }

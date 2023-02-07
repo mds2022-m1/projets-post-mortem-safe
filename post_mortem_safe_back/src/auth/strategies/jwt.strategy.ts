@@ -8,7 +8,10 @@ import { JwtPayload } from '../auth.service';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        JwtStrategy.extractJWT,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_SECRET'),
     });
@@ -21,5 +24,16 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         prenom: payload.prenom,
         nom: payload.nom,
     };
+  }
+
+  private static extractJWT(req: any): string | null {
+    if (
+      req.cookies &&
+      'user' in req.cookies
+    ) {
+      const user = JSON.parse(req.cookies.user)
+      return user.accessToken;
+    }
+    return null;
   }
 }
