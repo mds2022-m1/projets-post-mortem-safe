@@ -18,15 +18,9 @@ export default function SignUp() {
     const handleSubmit = async (e: any)=>{
         e.preventDefault();
 
-        console.log(nom,prenom,email,password);
-
         try{
             const {data} = await createUser({variables: { nom: nom, prenom: prenom, email: email, mdp: password}})
             const {data: {authLogin: user}} = await login({variables: {username: email, password: password}})
-
-            console.log(data)
-            console.log(user)
-
         }
         catch(e){
             console.log(e)

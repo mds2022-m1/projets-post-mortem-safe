@@ -27,6 +27,10 @@ import { SafesModule } from './safes/safes.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      cors: {
+        origin: 'http://localhost:3000',
+        credentials: true,
+      }
     }),
     UsersModule,
     AuthModule,

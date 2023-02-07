@@ -1,17 +1,11 @@
-import * as fs from 'fs'
-import { GET_SAFE, useGetSafe } from '../../hooks/useGetSafe'
-import * as jose from "jose"
-import { useCookies } from 'react-cookie';
-import { useQuery } from '@apollo/client';
+import { useGetSafe } from '../../hooks/useGetSafe'
 
 export default function Dashboard(){
 
-    const [cookies] = useCookies(['user']);
-    console.log(cookies)
+     const { loading, error, data } = useGetSafe()
 
-    const { loading, error, data } = useQuery(GET_SAFE);
+     console.log("get safe",data, error)
 
-    console.log(data)
 
     return(
         <div>
