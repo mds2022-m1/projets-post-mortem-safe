@@ -3,7 +3,11 @@ import { gql, useQuery } from "@apollo/client"
 export const GET_SAFE = gql`
    query useGetSafe{
     useGetSafe{
-        files
+        files {
+            name
+            type
+            added
+        }
     }
    }
 `;
