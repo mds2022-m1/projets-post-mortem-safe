@@ -21,7 +21,6 @@ export class SafesService {
            const stats = fs.statSync(`${dir}/${file}`)
            return { name: file, type: file.split('.')[file.split('.').length - 1], added: stats.birthtime }
         })
-        console.log(filesWithInfos)
         return {files: filesWithInfos}
     }
 }
