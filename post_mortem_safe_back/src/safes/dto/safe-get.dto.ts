@@ -8,6 +8,23 @@ export class UseGetSafeInput{
 
 @ObjectType()
 export class UseGetSafeOutput {
-  @Field(()=> [String])
-  files: string[];
+  @Field(()=> [FileTypes])
+  files: {
+    name: string,
+    type: string,
+    added: Date
+  }[];
+}
+
+@ObjectType()
+class FileTypes {
+
+  @Field()
+  name: string
+
+  @Field()
+  type: string
+
+  @Field()
+  added: Date
 }

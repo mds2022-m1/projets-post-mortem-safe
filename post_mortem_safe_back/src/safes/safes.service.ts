@@ -16,6 +16,11 @@ export class SafesService {
 
     useGetSafe(safeID: string): UseGetSafeOutput{
         const dir = process.cwd() + `/safes/${safeID}`;
-        return {files: fs.readdirSync(dir)}
+        const files = fs.readdirSync(dir)
+        const filesWithInfos: UseGetSafeOutput['files'] = files.map(file => {
+           const stats = fs.statSync(`${dir}/${file}`)
+           return { name: file, type: file.split('.')[file.split('.').length - 1], added: stats.birthtime }
+        })
+        return {files: filesWithInfos}
     }
 }

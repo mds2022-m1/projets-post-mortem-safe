@@ -17,7 +17,6 @@ export class SafesQueriesResolver {
     @UseGuards(JwtAuthGuard)
     @Query(() => UseGetSafeOutput)
     async useGetSafe(@CurrentUser() user: Partial<Users>): Promise<UseGetSafeOutput> {
-      console.log(user)
       const safeId: Users['safeID'] = await this.usersService.getSafeId(user.id)
       return this.safesService.useGetSafe(safeId)
     } 
