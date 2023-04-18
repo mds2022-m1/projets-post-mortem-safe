@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import React, { useState } from 'react'
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useCreateUser } from '../hooks/useCreateUser';
 import { useLogin } from '../hooks/useLogin';
 

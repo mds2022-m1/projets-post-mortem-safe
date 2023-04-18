@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const getTokenWithRefresh= async (token: string, request: NextRequest): Promise<NextResponse> => {
     try{
         // Use of fetch, because middleware is on low level, apolloClient doesn't work
-        const res = await fetch(`${process.env.API_URL}/graphql`,{
+        const res = await fetch(process.env.NEXT_PUBLIC_API_GRAPHQL as string,{
             method: 'POST',
             headers :{
                 'Content-Type': 'application/json',
@@ -15,6 +15,8 @@ export const getTokenWithRefresh= async (token: string, request: NextRequest): P
             })
         })
         .then(stream => stream.json())
+
+        console.log(res)
 
         if(res.errors){
             console.log(`\x1b[31merror\x1b[0m - ${res.errors[0].extensions.response.statusCode} :`, res.errors[0].message)   

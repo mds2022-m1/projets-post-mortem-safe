@@ -1,13 +1,12 @@
-import { Request, UseGuards } from "@nestjs/common";
-import { Args, ID, Query, Resolver } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common/decorators";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { CurrentUser, JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { Users } from "src/users/entities/users.entity";
 import { UsersService } from "src/users/users.service";
-import { UseGetSafeInput, UseGetSafeOutput } from "../dto/safes-get.dto";
 import { SafesService } from "../safes.service";
 
 @Resolver()
-export class SafesQueriesResolver {
+export class SafesMutationsResolver {
 
     constructor(
         private readonly safesService: SafesService,
@@ -15,9 +14,10 @@ export class SafesQueriesResolver {
     ){}
 
     @UseGuards(JwtAuthGuard)
-    @Query(() => UseGetSafeOutput)
-    async useGetSafe(@CurrentUser() user: Partial<Users>): Promise<UseGetSafeOutput> {
+    @Mutation(() => Boolean)
+    async useDeleteFile(@CurrentUser() user: Partial<Users>, @Args('file') file: string ): Promise<Boolean> {
       const safeId: Users['safeID'] = await this.usersService.getSafeId(user.id)
-      return this.safesService.useGetSafe(safeId)
+      this.safesService.deleteFile(safeId, file)
+      return true
     } 
 }

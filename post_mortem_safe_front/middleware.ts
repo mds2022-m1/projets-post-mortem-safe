@@ -17,6 +17,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
         const key = new TextEncoder().encode(process.env.JWT_SECRET)
         let token;
         try{
+            const token2 = jose.jwtDecrypt
             // verify the token validity
             token = await jose.jwtVerify(accessToken, key, {
                 algorithms : ["HS256"],

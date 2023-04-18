@@ -8,5 +8,6 @@ mutation getToken($username: String!, $password: String!){
 
 
 export const useLogin = () => {
+    console.log(process.env.NEXT_PUBLIC_API_GRAPHQL)
     return useMutation(GET_TOKEN)
 }
