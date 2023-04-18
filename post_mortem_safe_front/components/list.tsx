@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDeleteFile } from "../hooks/useDeleteFile"
+import { GET_SAFE } from "../hooks/useGetSafe"
 
 type Tprops = {
     data: Array<string>
@@ -9,7 +10,7 @@ export const List = (props: Tprops) => {
 
     const { data } = props
 
-    const [list, setList] = useState(data)
+    const [deleteFile] = useDeleteFile()
 
     const computeDate = (data: Date) => {
         const date = new Date(data)
@@ -17,12 +18,17 @@ export const List = (props: Tprops) => {
     }
 
     const onDelete = (file: string) => {
-        useDeleteFile(file)
+        deleteFile({
+            variables: {
+                file
+            },
+            refetchQueries: [ GET_SAFE ]
+        })
     }
 
     return (
         <ul>
-        { list.map((file: any, index: number)=> {
+        { data.map((file: any, index: number)=> {
         return (
             <li key={index}>
                 <div className="flex justify-between">
@@ -33,7 +39,7 @@ export const List = (props: Tprops) => {
                     <div><p>Date d'ajout : { computeDate(file.added as Date) }</p></div>
                 </div>
                 <div>
-                    <button type="button" onClick={() => onDelete(`${file.name}.${file.type}`)}>Supprimer</button>
+                    <button type="button" onClick={() => onDelete(`${file.name}`)}>Supprimer</button>
                 </div>
             </li>
         )

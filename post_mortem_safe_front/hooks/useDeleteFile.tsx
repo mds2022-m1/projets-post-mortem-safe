@@ -1,16 +1,11 @@
 import { gql, useMutation } from "@apollo/client";
 
 const DELETE_FILE = gql`
-mutation userCreate($file: String!) {
-    userCreate(input: $file){
-        user {
-            email,
-            id
-        }
-    }
+mutation deleteFile($file: String!){
+  useDeleteFile(file: $file)
 }
 `;
 
-export const useDeleteFile = (file: string) => {
+export const useDeleteFile = () => {
     return useMutation<String>(DELETE_FILE);
 }

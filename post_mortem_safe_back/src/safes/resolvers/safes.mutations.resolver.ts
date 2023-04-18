@@ -1,3 +1,4 @@
+import { HttpException } from "@nestjs/common";
 import { UseGuards } from "@nestjs/common/decorators";
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { CurrentUser, JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
@@ -17,7 +18,11 @@ export class SafesMutationsResolver {
     @Mutation(() => Boolean)
     async useDeleteFile(@CurrentUser() user: Partial<Users>, @Args('file') file: string ): Promise<Boolean> {
       const safeId: Users['safeID'] = await this.usersService.getSafeId(user.id)
-      this.safesService.deleteFile(safeId, file)
-      return true
+      try{
+        this.safesService.deleteFile(safeId, file)
+        return true
+      }catch(e){
+        throw new HttpException('Erreur', 500)
+      }
     } 
 }
