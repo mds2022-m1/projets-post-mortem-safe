@@ -1,5 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
+import { join } from 'path';
 import { UseGetSafeOutput } from './dto/safes-get.dto';
 
 @Injectable()
@@ -25,7 +26,9 @@ export class SafesService {
     }
 
     async deleteFile(safeID: string, file: string): Promise<void> {
-        const pathToFile = process.cwd() + `/safes/${safeID}/${file}`;
+        const pathToFolder = process.cwd() + `/safes/${safeID}`;
+        const pathToFile = join(pathToFolder, file)
+        console.log({ pathToFile })
         return fs.unlinkSync(pathToFile)
     }
 }
