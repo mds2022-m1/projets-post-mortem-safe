@@ -16,8 +16,6 @@ export const getTokenWithRefresh= async (token: string, request: NextRequest): P
         })
         .then(stream => stream.json())
 
-        console.log(res)
-
         if(res.errors){
             console.log(`\x1b[31merror\x1b[0m - ${res.errors[0].extensions.response.statusCode} :`, res.errors[0].message)   
             const nextResponse: NextResponse = NextResponse.redirect(request.nextUrl);

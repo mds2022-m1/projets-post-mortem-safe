@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { join } from 'path';
 import { UseGetSafeOutput } from './dto/safes-get.dto';
+import { FileUpload, FileUploadOutput } from './dto/safes-upload.dto';
 
 @Injectable()
 export class SafesService {
@@ -30,5 +31,24 @@ export class SafesService {
         const pathToFile = join(pathToFolder, file)
         console.log({ pathToFile })
         return fs.unlinkSync(pathToFile)
+    }
+
+    async uploadFile(safeId: string, file: FileUpload): Promise<FileUploadOutput> {
+
+        const pathToFolder = process.cwd() + `/safes/${safeId}`;
+        const { createReadStream, filename } = file;
+
+        const res: Promise<FileUploadOutput> = new Promise(async (resolve) => {
+        createReadStream()
+        .pipe(fs.createWriteStream(join(pathToFolder,filename)))
+        .on('finish', () =>
+            resolve({
+            file: filename,
+            }),
+        )
+        .on('error',() => new HttpException('Could not save image', HttpStatus.BAD_REQUEST));
+        })
+      
+        return res
     }
 }

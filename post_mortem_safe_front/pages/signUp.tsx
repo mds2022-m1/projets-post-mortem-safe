@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { useCreateUser } from '../hooks/useCreateUser';
 import { useLogin } from '../hooks/useLogin';
 
@@ -14,7 +14,7 @@ export default function SignUp() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const handleSubmit = async (e: any)=>{
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
 
         try{

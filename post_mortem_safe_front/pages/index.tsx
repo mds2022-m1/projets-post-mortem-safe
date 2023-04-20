@@ -20,8 +20,6 @@ export default function Home() {
 
     const {data: {authLogin: user}} = await login({variables: {username: email, password: mdp}})
 
-    console.log(user)
-
     if(!user){
       throw Error('Impossible de récupérer les informations de connexion')
     }
