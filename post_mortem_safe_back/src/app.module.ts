@@ -37,6 +37,6 @@ import { SafesModule } from './safes/safes.module';
     SafesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SafesService],
+  providers: [AppService],
 })
 export class AppModule {}

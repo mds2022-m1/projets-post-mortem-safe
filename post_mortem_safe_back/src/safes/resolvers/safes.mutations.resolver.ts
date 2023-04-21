@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException } from "@nestjs/common";
 import { UseGuards } from "@nestjs/common/decorators";
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { CurrentUser, JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
@@ -6,11 +6,10 @@ import { Users } from "src/users/entities/users.entity";
 import { UsersService } from "src/users/users.service";
 import { SafesService } from "../safes.service";
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
-import { FileUpload, FileUploadOutput } from "../dto/safes-upload.dto";
-import { createWriteStream } from "fs";
-import { join } from "path";
+import { FileUpload } from "../dto/safes-upload.dto";
 
 @Resolver()
+@UseGuards(JwtAuthGuard)
 export class SafesMutationsResolver {
 
     constructor(
@@ -18,7 +17,6 @@ export class SafesMutationsResolver {
         private readonly usersService: UsersService,
     ){}
 
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => Boolean)
     async useDeleteFile(@CurrentUser() user: Partial<Users>, @Args('file') file: string ): Promise<Boolean> {
       const safeId: Users['safeID'] = await this.usersService.getSafeId(user.id)
@@ -30,7 +28,6 @@ export class SafesMutationsResolver {
       }
     } 
 
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => Boolean)
     async useUploadFile(
       @CurrentUser() 

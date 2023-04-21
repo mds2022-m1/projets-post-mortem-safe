@@ -29,7 +29,6 @@ export class SafesService {
     async deleteFile(safeID: string, file: string): Promise<void> {
         const pathToFolder = process.cwd() + `/safes/${safeID}`;
         const pathToFile = join(pathToFolder, file)
-        console.log({ pathToFile })
         return fs.unlinkSync(pathToFile)
     }
 

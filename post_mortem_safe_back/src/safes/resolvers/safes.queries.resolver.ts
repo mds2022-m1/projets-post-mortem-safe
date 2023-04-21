@@ -1,12 +1,13 @@
-import { Request, UseGuards } from "@nestjs/common";
-import { Args, ID, Query, Resolver } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import {  Query, Resolver } from "@nestjs/graphql";
 import { CurrentUser, JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { Users } from "src/users/entities/users.entity";
 import { UsersService } from "src/users/users.service";
-import { UseGetSafeInput, UseGetSafeOutput } from "../dto/safes-get.dto";
+import { UseGetSafeOutput } from "../dto/safes-get.dto";
 import { SafesService } from "../safes.service";
 
 @Resolver()
+@UseGuards(JwtAuthGuard)
 export class SafesQueriesResolver {
 
     constructor(
@@ -14,7 +15,6 @@ export class SafesQueriesResolver {
         private readonly usersService: UsersService,
     ){}
 
-    @UseGuards(JwtAuthGuard)
     @Query(() => UseGetSafeOutput)
     async useGetSafe(@CurrentUser() user: Partial<Users>): Promise<UseGetSafeOutput> {
       const safeId: Users['safeID'] = await this.usersService.getSafeId(user.id)

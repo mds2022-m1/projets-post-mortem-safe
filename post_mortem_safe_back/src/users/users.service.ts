@@ -64,22 +64,6 @@ export class UsersService {
   }
 
   async getUsers(args: UsersPaginationArgs): Promise<UsersPagination> {
-    /*const qb = this.userRepository.createQueryBuilder('users');
-    qb.skip(args.skip); 
-    qb.take(args.take);
-    if(args.sortBy) {
-      if(args.sortBy.createdAt !== null){
-        qb.addOrderBy('users.createdAt',
-        args.sortBy.createdAt === SortDirection.ASC ? 'ASC' : 'DESC' 
-        )
-      }
-      if(args.sortBy.nom !== null) {
-        qb.addOrderBy('users.nom',
-        args.sortBy.nom === SortDirection.ASC ? 'ASC' : 'DESC'
-        )
-      }
-    }
-    const [entity, totalCount] = await qb.getManyAndCount();*/
 
     const [entity, totalCount] = await this.userRepository.findAndCount({
       skip: args.skip,
